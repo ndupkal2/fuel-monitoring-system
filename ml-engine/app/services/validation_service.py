@@ -27,15 +27,16 @@ def validate_transaction_data(data: dict) -> bool:
     # 3. Validasi Kapasitas Tangki Kendaraan (Dari Data Master)
     tank_capacity = data.get("fuel_tank_capacity")
     if tank_capacity is None:
-        raise ValueError(f"Transaction ID {transaction_id}: Data kapasitas tangki kendaraan tidak ditemukan di database.")
-        
-    try:
-        tank_capacity_float = float(tank_capacity)
-    except (ValueError, TypeError):
-        raise ValueError(f"Transaction ID {transaction_id}: fuel_tank_capacity harus berupa angka numerik.")
-
-    if tank_capacity_float <= 0:
-        raise ValueError(f"Transaction ID {transaction_id}: fuel_tank_capacity tidak valid ({tank_capacity_float}).")
+        print(f"[Python Validation Warning] Transaction ID {transaction_id}: Kapasitas tangki null di database, menggunakan default 50.0 Liter.")
+        data["fuel_tank_capacity"] = 50.0
+    else:
+        try:
+            tank_capacity_float = float(tank_capacity)
+            if tank_capacity_float <= 0:
+                print(f"[Python Validation Warning] Transaction ID {transaction_id}: Kapasitas tangki <= 0, menggunakan default 50.0 Liter.")
+                data["fuel_tank_capacity"] = 50.0
+        except (ValueError, TypeError):
+            data["fuel_tank_capacity"] = 50.0
 
     print(f"[Python Validation] Data untuk Transaction ID {transaction_id} valid dan aman diproses.")
     return True

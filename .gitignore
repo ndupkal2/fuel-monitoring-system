@@ -9,6 +9,9 @@ build/
 # Environment Variables (SANGAT PENTING: Jangan hapus ini agar password aman)
 .env
 .env.test
+serviceAccountKey.json
+*serviceAccount*.json
+google-services.json
 
 # Logs
 logs/
@@ -16,4 +19,4 @@ logs/
 
 # OS generated files
 .DS_Store
-Thumbs.db
+Thumbs.db
